@@ -1,9 +1,6 @@
 ---
-layout: ../../layouts/MarkDownLayout.astro
-title: 初めてのブログです
+title: 一つ目のエントリー
+tags: javascript
 ---
 
-## 初めてのブログです
-
-ブログをマークダウンで書いています。  
-どうぞよろしくお願いします。
+javascript の話題です

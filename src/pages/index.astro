@@ -1,5 +1,24 @@
 ---
-const color = "blue";
+type Nav = {
+  href: string;
+  label: string;
+};
+const nav: Nav[] = [
+  {
+    href: "/",
+    label: "home",
+  },
+  {
+    href: "/conpany",
+    label: "会社情報",
+  },
+  {
+    href: "/contact",
+    label: "お問い合わせ",
+  },
+];
+
+const active = "/conpany";
 ---
 
 <!DOCTYPE html>
@@ -7,16 +26,48 @@ const color = "blue";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>ナビゲーション</title>
   </head>
   <body>
-    <p>CSSに変数を使います</p>
+    <h1>ナビゲーション</h1>
+    <nav>
+      <ul>
+        {
+          nav.map((item) => (
+            <li class:list={[item.href === active && "is-active"]}>
+              <a href={`${item.href}`}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
   </body>
 </html>
 
-<style define:vars={{ color }}>
-  body {
-    background-color: #ccc;
-    color: var(--color);
+<style lang="scss">
+  nav {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+
+      li {
+        margin-right: 1em;
+        padding: 5px 3px;
+
+        a {
+          text-decoration: none;
+          color: #000;
+        }
+
+        &.is-active {
+          background-color: #000;
+          a {
+            color: #fff;
+          }
+        }
+      }
+    }
   }
 </style>

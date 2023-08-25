@@ -1,0 +1,47 @@
+---
+import { MarkdownInstance } from "astro";
+interface FrontMatter {
+  title: string;
+  tags: string;
+}
+export async function getStaticPaths() {
+  const allPosts = await Astro.glob<FrontMatter>("../blog/*.md");
+  const uniequeTags = [
+    ...new Set(allPosts.map((post) => post.frontmatter.tags).flat()),
+  ];
+
+  return uniequeTags.map((tag) => {
+    const filteredPosts = allPosts.filter(
+      (post) => post.frontmatter.tags === tag
+    );
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const filteredPosts: MarkdownInstance<FrontMatter>[] = Astro.props.posts;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>タグ：{tag}のブログ一覧</h1>
+    <ul>
+      {
+        filteredPosts.map((post) => (
+          <li>
+            <a href={`${post.url}`}>{post.frontmatter.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </body>
+</html>
