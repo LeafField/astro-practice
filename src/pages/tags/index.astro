@@ -1,3 +1,12 @@
+---
+interface Frontmatter {
+  title: string;
+  tags: string;
+}
+const allPosts = await Astro.glob<Frontmatter>("../blog/*.md");
+const tags = allPosts.map((post) => post.frontmatter.tags);
+---
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -8,8 +17,13 @@
   <body>
     <h1>タグページ</h1>
     <ul>
-      <li>Astro</li>
-      <li>JavaScript</li>
+      {
+        tags.map((tag) => (
+          <li>
+            <a href={`/tags/${tag}`}>{tag}</a>
+          </li>
+        ))
+      }
     </ul>
   </body>
 </html>
